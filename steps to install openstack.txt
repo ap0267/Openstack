@@ -1,0 +1,55 @@
+steps to install openstack:-
+1)set static ip
+
+2)yum update -y
+3)yum list
+4)yum list | grep openstack
+
+//refer(source)-rdo openstack -packstack
+
+5)sudo dnf update -y
+6)dnf config-manager --enable powertools
+7)yum install centos-release-openstack-victoria.noarch 
+8)cd /etc/yum.repos.d
+9)yum list
+10)yum update -y
+11)dnf install -y openstack-packstack
+	cd
+
+//change hostname
+
+12) hostnamectl set-hostname myopenstack.example.com
+13)vim /etc/hosts
+
+    192.168.138.156   myopenstack.example.com  myopenstack
+
+//software 
+
+14)dnf install network-scripts -y
+
+15) systemctl disable firewalld
+systemctl stop firewalld
+systemctl disable NetworkManager
+systemctl stop NetworkManager
+systemctl enable network
+systemctl start network
+
+16) setenforce 0
+17)vim /etc/selinux/config 
+SELINUX=permissive
+
+18) packstack --gen-answer-file=setup.txt
+
+vim setup.txt
+
+CONFIG_SWIFT_INSTALL=n
+CONFIG_CEILOMETER_INSTALL=n
+CONFIG_AODH_INSTALL=n
+CONFIG_PROVISION_DEMO=n
+CONFIG_DEFAULT_PASSWORD=redhat@123
+
+:wq
+
+19)packstack --answer-file=setup.txt
+
+
